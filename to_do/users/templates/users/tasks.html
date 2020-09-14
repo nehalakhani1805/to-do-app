@@ -1,0 +1,31 @@
+{% extends 'appone/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<form method="POST">
+	{% csrf_token %}
+	<fieldset class="form-group">
+
+		{{ form|crispy }}
+	</fieldset>
+	<button type="submit">Add task</button>
+</form>
+
+<!--<a href="{% url 'appone-about' %}">click</a>-->
+{% for task in tasks %}
+	<!--{% if task.owner == user %}-->
+	<div class="container">
+		
+		{% if task.done == False %}
+		<h2>{{task.todo}} </h2>
+		<a  class="btn btn-secondary" href="{% url 'cross' task.id %}" >Cross</a>
+		{% else %}
+		<h2><s>{{task.todo}}</s></h2>
+		<a  class="btn btn-secondary" href="{% url 'cross' task.id %}" >Uncross</a>
+		{% endif %}
+		<a class="btn btn-secondary" href="{% url 'edit' task.id %}" >Edit</a>
+		<a class="btn btn-danger" href="{% url 'delete' task.id %}" >Delete</a>
+	</div>
+	<!--{% endif %}-->
+{% endfor %}
+{% endblock %}
